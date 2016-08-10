@@ -207,11 +207,13 @@ listener_uptime(Listener) ->
 %% -----------------------------------------------------------------------------
 -spec get_listener_func(listener()) -> atom().
 get_listener_func(http) -> start_http;
+get_listener_func(httpv6) -> start_http;
 get_listener_func(https) -> start_https;
 get_listener_func(spdy) -> start_spdy.
 
 -spec get_ref(listener()) -> ranch:ref().
 get_ref(http) -> leptus_http;
+get_ref(httpv6) -> leptus_httpv6;
 get_ref(https) -> leptus_https;
 get_ref(spdy) -> leptus_spdy.
 
@@ -221,6 +223,8 @@ get_ref(spdy) -> leptus_spdy.
 -spec listener_opts(listener(), inet:ip_address(), inet:port_number(),
                     options()) -> options().
 listener_opts(http, IP, Port, _) ->
+    basic_listener_opts(IP, Port);
+listener_opts(httpv6, IP, Port, _) ->
     basic_listener_opts(IP, Port);
 listener_opts(_, IP, Port, Opts) ->
     basic_listener_opts(IP, Port) ++ extra_listener_opts(Opts).
@@ -273,6 +277,7 @@ print_info(Listener, IP, Port) ->
     Listener1 = case Listener of
                     http -> "http";
                     https -> "https";
+                    httpv6 -> "http";
                     spdy -> "https"
                 end,
     io:format("Leptus ~s started on ~s://~s:~p~n",
