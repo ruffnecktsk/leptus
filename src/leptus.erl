@@ -110,8 +110,8 @@ start_listener(Listener, Handlers, Opts, UserCowboyProtoOpts) ->
     NbAcceptors = opt(nb_acceptors, Opts, 100),
 
     %% basic listener configuration
-    IP = opt(ip, Opts, {127, 0, 0, 1}),
-    Port = opt(port, Opts, 8080),
+    IP = opt(ip, Opts, {0, 0, 0, 0}),
+    Port = opt(port, Opts, 80),
 
     ListenerOpts = listener_opts(Listener, IP, Port, Opts),
     CowboyProtoOpts = [{env, [{dispatch, Dispatch1}]} | UserCowboyProtoOpts],
