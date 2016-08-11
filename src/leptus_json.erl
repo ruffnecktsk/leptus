@@ -66,7 +66,7 @@ jiffy_encode(Term) ->
     jiffy:encode(before_encode(Term)).
 
 jiffy_decode(Bin) ->
-    after_decode(jiffy:decode(Bin)).
+    after_decode(jiffy:decode(Bin,[return_maps])).
 
 %% -----------------------------------------------------------------------------
 %% before encoding - after decoding (only for jiffy)
