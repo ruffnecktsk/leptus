@@ -213,7 +213,7 @@ get_listener_func(spdy) -> start_spdy.
 
 -spec get_ref(listener()) -> ranch:ref().
 get_ref(http) -> leptus_http;
-get_ref(httpv6) -> leptus_http;
+get_ref(httpv6) -> leptus_httpv6;
 get_ref(https) -> leptus_https;
 get_ref(spdy) -> leptus_spdy.
 
