@@ -45,7 +45,7 @@
 -export_type([handler/0]).
 -export_type([handlers/0]).
 
--type listener() :: http | https | spdy.
+-type listener() :: http | httpv6 | https | spdy.
 -type static_directory() :: Dir :: file:name()
                           | {priv_dir, App :: atom(), Dir :: file:name()}.
 -type option() :: {nb_acceptors, non_neg_integer()}
@@ -207,11 +207,13 @@ listener_uptime(Listener) ->
 %% -----------------------------------------------------------------------------
 -spec get_listener_func(listener()) -> atom().
 get_listener_func(http) -> start_http;
+get_listener_func(httpv6) -> start_http;
 get_listener_func(https) -> start_https;
 get_listener_func(spdy) -> start_spdy.
 
 -spec get_ref(listener()) -> ranch:ref().
 get_ref(http) -> leptus_http;
+get_ref(httpv6) -> leptus_http;
 get_ref(https) -> leptus_https;
 get_ref(spdy) -> leptus_spdy.
 
@@ -272,6 +274,7 @@ print_info(Listener, IP, Port) ->
     {ok, Vsn} = application:get_key(leptus, vsn),
     Listener1 = case Listener of
                     http -> "http";
+                    httpv6 -> "http";
                     https -> "https";
                     spdy -> "https"
                 end,
